@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Linux Wiz - Android and Linux News</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+    <style>
+        .theme-transition {
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .theme-light {
+            --bg-primary: #f9fafb;
+            --bg-header: #581c87;
+            --bg-card: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+        }
+        
+        .theme-dark {
+            --bg-primary: #111827;
+            --bg-header: #1f2937;
+            --bg-card: #1f2937;
+            --text-primary: #f3f4f6;
+            --text-secondary: #d1d5db;
+        }
+        
+        .theme-amoled {
+            --bg-primary: #000000;
+            --bg-header: #000000;
+            --bg-card: #000000;
+            --text-primary: #f3f4f6;
+            --text-secondary: #d1d5db;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .header {
+            background-color: var(--bg-header);
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid rgba(139, 92, 246, 0.1);
+        }
+
+        .card-text {
+            color: var(--text-secondary);
+        }
+
+        .scale-on-hover:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
+        }
+
+        .theme-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background-color: var(--bg-card);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 0.5rem;
+            padding: 0.5rem 0;
+            min-width: 160px;
+            z-index: 50;
+        }
+
+        .theme-menu.active {
+            display: block;
+        }
+
+        .featured-badge {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        }
+    </style>
+</head>
+<body class="theme-light theme-transition">
+    <!-- Header -->
+    <header class="header sticky top-0 z-50 theme-transition">
+        <div class="max-w-6xl mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2 text-white">
+                    <i data-feather="terminal"></i>
+                    <h1 class="text-2xl font-bold">The Linux Wiz</h1>
+                </div>
+
+                <!-- Theme Switcher -->
+                <div class="relative">
+                    <button id="theme-toggle" class="p-2 rounded-full hover:bg-white hover:bg-opacity-20 text-white">
+                        <i data-feather="settings"></i>
+                    </button>
+                    <div id="theme-menu" class="theme-menu">
+                        <button onclick="setTheme('light')" class="w-full px-4 py-2 text-left hover:bg-purple-500 hover:bg-opacity-20 flex items-center">
+                            <i data-feather="sun" class="w-4 h-4 mr-2"></i>
+                            Light Mode
+                        </button>
+                        <button onclick="setTheme('dark')" class="w-full px-4 py-2 text-left hover:bg-purple-500 hover:bg-opacity-20 flex items-center">
+                            <i data-feather="moon" class="w-4 h-4 mr-2"></i>
+                            Dark Mode
+                        </button>
+                        <button onclick="setTheme('amoled')" class="w-full px-4 py-2 text-left hover:bg-purple-500 hover:bg-opacity-20 flex items-center">
+                            <i data-feather="moon" class="w-4 h-4 mr-2"></i>
+                            AMOLED Black
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Welcome Banner -->
+    <div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white">
+        <div class="max-w-6xl mx-auto px-4 py-12 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Welcome to The Linux Wiz</h2>
+            <p class="text-lg md:text-xl text-purple-100">Your source for the latest in Android and Linux news</p>
+        </div>
+    </div>
+
+    <!-- Featured Post -->
+    <div class="max-w-6xl mx-auto px-4 py-12">
+        <div class="card rounded-xl shadow-xl overflow-hidden transform hover:scale-105 transition-duration-300">
+            <img src="/api/placeholder/1200/400" alt="One UI 7" class="w-full h-96 object-cover">
+            <div class="p-8">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="featured-badge text-white px-4 py-1 rounded-full text-sm font-semibold">FEATURED POST</span>
+                    <span class="text-purple-600 text-sm">January 19, 2025</span>
+                </div>
+                <h2 class="text-3xl font-bold mb-4">When Will One UI 7 Be Released?</h2>
+                <p class="card-text text-lg mb-6">Welcome to the Linux Wiz! This is my very first blog post, and I'm excited to get things started. Today, we're tackling a question that's been on the minds of many: When will the stable One UI 7 update be released?</p>
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center space-x-4">
+                        <span class="flex items-center text-sm card-text">
+                            <i data-feather="clock" class="w-4 h-4 mr-1"></i>
+                            2 min read
+                        </span>
+                        <span class="flex items-center text-sm card-text">
+                            <i data-feather="message-circle" class="w-4 h-4 mr-1"></i>
+                            First Post
+                        </span>
+                    </div>
+                    <a href="/article/one-ui-7-release" class="inline-flex items-center px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                        Read More
+                        <i data-feather="arrow-right" class="w-4 h-4 ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Newsletter Signup -->
+    <div class="max-w-6xl mx-auto px-4 py-12">
+        <div class="card rounded-xl p-8 text-center">
+            <h3 class="text-2xl font-bold mb-4">Stay Updated</h3>
+            <p class="card-text mb-6">Subscribe to get the latest Android and Linux news delivered to your inbox.</p>
+            <div class="max-w-md mx-auto flex gap-4">
+                <input type="email" placeholder="Enter your email" class="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                <button class="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                    Subscribe
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Feather Icons
+        feather.replace();
+
+        // Theme Switching
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeMenu = document.getElementById('theme-menu');
+        
+        themeToggle.addEventListener('click', () => {
+            themeMenu.classList.toggle('active');
+        });
+
+        function setTheme(theme) {
+            document.body.className = `theme-${theme} theme-transition`;
+            themeMenu.classList.remove('active');
+            localStorage.setItem('theme', theme);
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        setTheme(savedTheme);
+
+        // Close theme menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!themeToggle.contains(e.target) && !themeMenu.contains(e.target)) {
+                themeMenu.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
