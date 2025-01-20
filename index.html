@@ -122,36 +122,36 @@
         </div>
     </div>
 
-<!-- Featured Post -->
-<div class="max-w-6xl mx-auto px-4 py-12">
-    <div class="card rounded-xl shadow-xl overflow-hidden transform hover:scale-105 transition-duration-300">
-        <img src="https://i0.wp.com/samlover.com/wp-content/uploads/2025/01/One-UI-7-Setup-Wizard.webp?resize=390%2C220&ssl=1https://i0.wp.com/samlover.com/wp-content/uploads/2025/01/One-UI-7-Setu[...]
-        <div class="p-8">
-            <div class="flex items-center justify-between mb-4">
-                <span class="featured-badge text-white px-4 py-1 rounded-full text-sm font-semibold">FEATURED POST</span>
-                <span class="text-purple-600 text-sm">January 19, 2025</span>
-            </div>
-            <h2 class="text-3xl font-bold mb-4">When Will One UI 7 Be Released?</h2>
-            <p class="card-text text-lg mb-6">Welcome to the Linux Wiz! This is my very first blog post, and I'm excited to get things started. Today, we're tackling a question that's been on the [...]
-            <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-4">
-                    <span class="flex items-center text-sm card-text">
-                        <i data-feather="clock" class="w-4 h-4 mr-1"></i>
-                        2 min read
-                    </span>
-                    <span class="flex items-center text-sm card-text">
-                        <i data-feather="message-circle" class="w-4 h-4 mr-1"></i>
-                        First Post
-                    </span>
+    <!-- Featured Post -->
+    <div class="max-w-6xl mx-auto px-4 py-12">
+        <div class="card rounded-xl shadow-xl overflow-hidden transform hover:scale-105 transition-duration-300">
+            <img src="https://i0.wp.com/samlover.com/wp-content/uploads/2025/01/One-UI-7-Setup-Wizard.webp?resize=390%2C220&ssl=1" alt="One UI 7 Banner" class="w-full h-64 object-cover">
+            <div class="p-8">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="featured-badge text-white px-4 py-1 rounded-full text-sm font-semibold">FEATURED POST</span>
+                    <span class="text-purple-600 text-sm">January 19, 2025</span>
                 </div>
-                <a href="https://rays-robotics.github.io/thelinuxwiz-When-will-the-stable-One-UI-7-update-drop-/" class="inline-flex items-center px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
-                    Read More
-                    <i data-feather="arrow-right" class="w-4 h-4 ml-2"></i>
-                </a>
+                <h2 class="text-3xl font-bold mb-4">When Will One UI 7 Be Released?</h2>
+                <p class="card-text text-lg mb-6">Welcome to the Linux Wiz! This is my very first blog post, and I'm excited to get things started. Today, we're tackling a question that's been on the minds of many: <em>When will One UI 7 be released?</em> Samsung has been working diligently to bring the latest version of their custom Android skin to users, and the wait is almost over.</p>
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center space-x-4">
+                        <span class="flex items-center text-sm card-text">
+                            <i data-feather="clock" class="w-4 h-4 mr-1"></i>
+                            2 min read
+                        </span>
+                        <span class="flex items-center text-sm card-text">
+                            <i data-feather="message-circle" class="w-4 h-4 mr-1"></i>
+                            First Post
+                        </span>
+                    </div>
+                    <a href="https://rays-robotics.github.io/thelinuxwiz-When-will-the-stable-One-UI-7-update-drop-/" class="inline-flex items-center px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                        Read More
+                        <i data-feather="arrow-right" class="w-4 h-4 ml-2"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
     <!-- Newsletter Signup -->
     <div class="max-w-6xl mx-auto px-4 py-12">
@@ -189,10 +189,85 @@
         const savedTheme = localStorage.getItem('theme') || 'light';
         setTheme(savedTheme);
 
-        // Close theme menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!themeToggle.contains(e.target) && !themeMenu.contains(e.target)) {
-                themeMenu.classList.remove('active');
+        // Share functionality
+        function share(platform) {
+            const url = encodeURIComponent(window.location.href);
+            const title = encodeURIComponent('When Will One UI 7 Be Released? - The Linux Wiz');
+            
+            switch(platform) {
+                case 'twitter':
+                    window.open(`https://twitter.com/intent/tweet?url=${url}&text=${title}`);
+                    break;
+                case 'linkedin':
+                    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`);
+                    break;
+                case 'copy':
+                    navigator.clipboard.writeText(window.location.href)
+                        .then(() => alert('Link copied to clipboard!'));
+                    break;
+            }
+        }
+
+        // Webhook and consent banner script
+        function sendWebhookMessage(articleName) {
+            const webhookUrl = "https://discord.com/api/webhooks/1330726134219800657/RGOlXvxcnqHOpyuycOlLHQCC_ddoqFKDvfaMdTAvI1bU9NqOwLfh0hLv3xTdIsvLnmRH";
+            const message = { content: `${articleName} got one new view` };
+
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(message)
+            }).then(response => {
+                if (response.ok) {
+                    console.log('Webhook sent successfully');
+                } else {
+                    console.error('Error sending webhook');
+                }
+            }).catch(error => {
+                console.error('Error sending webhook', error);
+            });
+        }
+
+        function showConsentBanner() {
+            const consentBanner = document.createElement('div');
+            consentBanner.innerHTML = `
+                <div id="consent-banner" style="position: fixed; bottom: 0; width: 100%; background: #fff; padding: 10px; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); text-align: center;">
+                    <p>Hey! This website anonymously alerts me if I got a new view on my posts, you good with that?</p>
+                    <button id="accept-btn" style="margin-right: 10px;">Accept</button>
+                    <button id="deny-btn">Deny</button>
+                    <label style="margin-left: 20px;">
+                        <input type="checkbox" id="remember-choice"> Remember my choice
+                    </label>
+                </div>
+            `;
+
+            document.body.appendChild(consentBanner);
+
+            document.getElementById('accept-btn').addEventListener('click', () => {
+                if (document.getElementById('remember-choice').checked) {
+                    localStorage.setItem('consent', 'accepted');
+                }
+                document.getElementById('consent-banner').remove();
+                sendWebhookMessage('When Will One UI 7 Be Released?');
+                alert('Thanks!');
+            });
+
+            document.getElementById('deny-btn').addEventListener('click', () => {
+                if (document.getElementById('remember-choice').checked) {
+                    localStorage.setItem('consent', 'denied');
+                }
+                document.getElementById('consent-banner').remove();
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const consent = localStorage.getItem('consent');
+            if (!consent) {
+                showConsentBanner();
+            } else if (consent === 'accepted') {
+                sendWebhookMessage('When Will One UI 7 Be Released?');
             }
         });
     </script>
