@@ -47,6 +47,7 @@
         .card {
             background-color: var(--bg-card);
             border: 1px solid rgba(139, 92, 246, 0.1);
+            cursor: pointer;
         }
 
         .card-text {
@@ -77,6 +78,44 @@
 
         .featured-badge {
             background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        }
+
+        .consent-banner {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: var(--bg-card);
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+            transform: translateY(100%);
+        }
+
+        .consent-banner.active {
+            transform: translateY(0);
+        }
+
+        .consent-banner p {
+            color: var(--text-primary);
+        }
+
+        .consent-banner button {
+            margin: 5px;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .consent-banner button:hover {
+            background-color: var(--bg-header);
+            color: var(--text-primary);
+        }
+
+        .consent-banner label {
+            margin-left: 20px;
+            color: var (--text-primary);
         }
     </style>
 </head>
@@ -124,7 +163,7 @@
 
     <!-- Featured Post -->
     <div class="max-w-6xl mx-auto px-4 py-12">
-        <div class="card rounded-xl shadow-xl overflow-hidden transform hover:scale-105 transition-duration-300">
+        <div class="card rounded-xl shadow-xl overflow-hidden transform hover:scale-105 transition-duration-300" onclick="showConsentBanner('When Will One UI 7 Be Released?')">
             <img src="https://i0.wp.com/samlover.com/wp-content/uploads/2025/01/One-UI-7-Setup-Wizard.webp?resize=390%2C220&ssl=1" alt="One UI 7 Banner" class="w-full h-64 object-cover">
             <div class="p-8">
                 <div class="flex items-center justify-between mb-4">
@@ -165,6 +204,13 @@
                 </button>
             </div>
         </div>
+    </div>
+
+    <div id="consent-banner" class="consent-banner">
+        <p>Hey! This website anonymously alerts me if I got a new view on my posts, you good with that?</p>
+        <button id="accept-btn">Accept</button>
+        <button id="deny-btn">Deny</button>
+        <label><input type="checkbox" id="remember-choice"> Remember my choice</label>
     </div>
 
     <script>
@@ -230,27 +276,16 @@
             });
         }
 
-        function showConsentBanner() {
-            const consentBanner = document.createElement('div');
-            consentBanner.innerHTML = `
-                <div id="consent-banner" style="position: fixed; bottom: 0; width: 100%; background: #fff; padding: 10px; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); text-align: center;">
-                    <p>Hey! This website anonymously alerts me if I got a new view on my posts, you good with that?</p>
-                    <button id="accept-btn" style="margin-right: 10px;">Accept</button>
-                    <button id="deny-btn">Deny</button>
-                    <label style="margin-left: 20px;">
-                        <input type="checkbox" id="remember-choice"> Remember my choice
-                    </label>
-                </div>
-            `;
-
-            document.body.appendChild(consentBanner);
+        function showConsentBanner(articleName) {
+            const consentBanner = document.getElementById('consent-banner');
+            consentBanner.classList.add('active');
 
             document.getElementById('accept-btn').addEventListener('click', () => {
                 if (document.getElementById('remember-choice').checked) {
                     localStorage.setItem('consent', 'accepted');
                 }
-                document.getElementById('consent-banner').remove();
-                sendWebhookMessage('When Will One UI 7 Be Released?');
+                consentBanner.classList.remove('active');
+                sendWebhookMessage(articleName);
                 alert('Thanks!');
             });
 
@@ -258,15 +293,13 @@
                 if (document.getElementById('remember-choice').checked) {
                     localStorage.setItem('consent', 'denied');
                 }
-                document.getElementById('consent-banner').remove();
+                consentBanner.classList.remove('active');
             });
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             const consent = localStorage.getItem('consent');
-            if (!consent) {
-                showConsentBanner();
-            } else if (consent === 'accepted') {
+            if (consent === 'accepted') {
                 sendWebhookMessage('When Will One UI 7 Be Released?');
             }
         });
